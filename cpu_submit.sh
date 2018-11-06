@@ -1,0 +1,42 @@
+$ML_HOME/bin/ml-submit \
+  --app-type "tensorflow"\
+  --app-name "tensorflow_lr_optimal_method"   \
+  --cacheArchive <Address for your packaged Python environment>#Python \
+  --files main.py,model.py,utils.py  \
+  --board-enable true\
+  --boardHistoryDir <Address for your TensorBoard output directory on HDFS> \
+  --input-strategy DOWNLOAD \
+  --output-strategy UPLOAD\
+  --input <Address for your input train data>#dataset \
+  --input <Address for your input test data>#test_dataset \
+  --output <Address for your saved models>#saved_models \
+  --worker-memory 16G\
+  --worker-cores 2 \
+  --worker-num 3 \
+  --worker-gpu-cores 0 \
+  --ps-num 1\
+  --ps-cores 1\
+  --ps-memory 16G \
+  --launch-cmd "Python/bin/python main.py 
+                --train_epochs 1
+                --test_epochs 1
+                --train_batch_size 100000
+                --test_batch_size 100000
+                --feature_dim 100 
+                --label_dim 1
+                --learning_rate 0.01
+                --pure_train_step 200
+                --print_per_epochs 20 
+                --save_per_epochs 10
+                --reload_model xxx
+                --run_type cpu
+                --num_workers 3
+                --num_cores 2
+                --worker_check_frequency 1
+                --min_allowed_loss_down 0.01
+                --max_loss_increase 2
+                --input_mode download 
+                --save_model_local_dir saved_models 
+                --local_data_dir dataset 
+                --test_local_data_dir test_dataset 
+                --test_option 1" 
